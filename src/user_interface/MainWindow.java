@@ -1,5 +1,7 @@
 package user_interface;
 
+import java.awt.*;
+
 import javax.swing.*;
 
 import model.Model;
@@ -16,6 +18,7 @@ public class MainWindow implements Runnable {
 	@Override
 	public void run() {
 		
+		setAppHeightAndWidth();
 		
 		_model = new Model();
 		_model.setUI(this);
@@ -27,9 +30,15 @@ public class MainWindow implements Runnable {
 		frame.add(mainPanel);
 		
 		//DO NOT TOUCH
-		frame.pack();
+		frame.setSize(appWidth, appHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+	}
+	
+	public void setAppHeightAndWidth() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		appWidth = screenSize.width / 2;
+		appHeight = screenSize.height / 2;
 	}
 	
 }
