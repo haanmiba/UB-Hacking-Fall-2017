@@ -1,6 +1,3 @@
-/user_interface/
-/listeners/
-/user_intrface/
-/model/
-/driver/
 /model_tests/
+/model/
+/user_interface/

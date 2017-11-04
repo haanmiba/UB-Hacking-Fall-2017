@@ -7,14 +7,12 @@ import java.awt.Color;
 public class Model {
 
 	private MainWindow _ui;
-	private ColorGenerator _colorGen; 
 	//Score of the player
 	private int _points, _lives;
 	//Color values to find
 	private int[] _rgbColor;
 	
 	public Model () {
-		_colorGen = new ColorGenerator(this);
 		_points = 0;
 		_lives = 3;
 		_rgbColor = new int[] {0, 0, 0};

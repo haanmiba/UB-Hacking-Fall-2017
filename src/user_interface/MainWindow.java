@@ -10,6 +10,7 @@ public class MainWindow implements Runnable {
 	private JPanel mainPanel;
 	private Model _model;
 	
+	@Override
 	public void run() {
 		_model = new Model();
 		_model.setUI(this);
