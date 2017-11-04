@@ -1,6 +1,7 @@
 package user_interface;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -20,14 +21,21 @@ public class MainWindow implements Runnable {
 		
 		setAppHeightAndWidth();
 		
+		BufferedImage image = createColorSpectrum();
+		
 		_model = new Model();
 		_model.setUI(this);
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
 		JLabel testLabel = new JLabel("My Label");
-					
+		
+		/*
 		mainPanel.add(testLabel);
-		frame.add(mainPanel);
+		frame.add(mainPanel);*/
+		
+		ColorSpectrumPanel csp = new ColorSpectrumPanel(image);
+		
+		frame.getContentPane().add(new JLabel(new ImageIcon(image)));
 		
 		//DO NOT TOUCH
 		frame.setSize(appWidth, appHeight);
@@ -39,6 +47,32 @@ public class MainWindow implements Runnable {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		appWidth = screenSize.width / 2;
 		appHeight = screenSize.height / 2;
+	}
+	
+	public BufferedImage createColorSpectrum() {
+		BufferedImage image = new BufferedImage(appWidth, appHeight, BufferedImage.TYPE_INT_ARGB);
+		for (int x = 0; x < appWidth; x++) {
+			for (int y = 0; y < appHeight; y++) {
+				image.setRGB(x, y, 200);
+			}
+		}
+		return image;
+	}
+	
+}
+
+class ColorSpectrumPanel extends JPanel {
+	
+	BufferedImage image;
+	
+	public ColorSpectrumPanel (BufferedImage i) {
+		image = i;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.drawImage(image, 0, 0 ,this);
 	}
 	
 }
