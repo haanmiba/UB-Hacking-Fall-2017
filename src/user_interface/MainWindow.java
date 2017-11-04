@@ -7,11 +7,16 @@ import model.Model;
 public class MainWindow implements Runnable {
 
 	private JFrame frame;
+	private int appWidth;
+	private int appHeight;
+	
 	private JPanel mainPanel;
 	private Model _model;
 	
 	@Override
 	public void run() {
+		
+		
 		_model = new Model();
 		_model.setUI(this);
 		frame = new JFrame("Project");
