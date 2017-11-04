@@ -51,4 +51,5 @@ public class Model {
 	public void setPickedColorValues (int A, int B) {
 		
 	}
+
 }
