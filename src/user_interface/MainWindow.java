@@ -2,13 +2,11 @@ package user_interface;
 
 import javax.swing.*;
 
-public class ProjectUI implements Runnable {
+public class MainWindow implements Runnable {
 
 	private JFrame frame;
-	
 	private JPanel mainPanel;
 	
-	@Override
 	public void run() {
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
