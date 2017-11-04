@@ -1,7 +1,5 @@
 package model;
 
-import Model.model;
-
 public class ColorGenerator {
 
 	Model _m;

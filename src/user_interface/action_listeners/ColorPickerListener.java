@@ -1,6 +1,8 @@
 package user_interface.action_listeners;
 
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import model.Model;
 
 public class ColorPickerListener extends MouseAdapter {
