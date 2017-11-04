@@ -2,12 +2,17 @@ package user_interface;
 
 import javax.swing.*;
 
+import model.Model;
+
 public class MainWindow implements Runnable {
 
 	private JFrame frame;
 	private JPanel mainPanel;
+	private Model _model;
 	
 	public void run() {
+		_model = new Model();
+		_model.setUI(this);
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
 		JLabel testLabel = new JLabel("My Label");

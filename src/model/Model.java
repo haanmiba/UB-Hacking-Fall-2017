@@ -4,8 +4,6 @@ import user_interface.*;
 
 import java.awt.Color;
 
-import model.*;
-
 public class Model {
 
 	private MainWindow _ui;
@@ -13,33 +11,30 @@ public class Model {
 	//Score of the player
 	private int _points, _lives;
 	//Color values to find
-	private int _toFindRed, _toFindGreen, _toFindBlue;
+	private int[] _rgbColor;
 	
-	public Model (MainWindow ui) {
-		_ui = ui;
+	public Model () {
 		_colorGen = new ColorGenerator(this);
 		_points = 0;
 		_lives = 3;
-		_toFindRed = 0;
-		_toFindGreen = 0;
-		_toFindBlue = 0;
+		_rgbColor = new int[] {0, 0, 0};
+	}
+	
+	public void setUI (MainWindow ui) {
+		_ui = ui;
 	}
 	
 	/**
-	 * Called by ColorGenerator to set a new color
-	 * 
-	 * @param r - randomly generated red value
-	 * @param g - randomly generated blue value
-	 * @param b - randomly generated green value
+	 * Creates a randomly generated RGB values
 	 */
-	public void setColorValsToFind (int r, int g, int b) {
-		_toFindRed = r;
-		_toFindGreen = g;
-		_toFindBlue = b;
+	public void newColorToFind () {
+		for (int i = 0; i<3; i+=1) {
+			_rgbColor[i] = 0 + (int)(Math.random() * 255); 
+		}
 	}
 	
 	public Color getColorToFind() {
-		return new Color(_toFindRed, _toFindGreen, _toFindBlue);
+		return new Color(_rgbColor[0], _rgbColor[1],_rgbColor[2]);
 	}
 	
 	/**
