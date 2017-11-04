@@ -11,7 +11,7 @@ public class MainWindow implements Runnable {
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
 		JLabel testLabel = new JLabel("My Label");
-		
+					
 		mainPanel.add(testLabel);
 		frame.add(mainPanel);
 		
@@ -20,5 +20,5 @@ public class MainWindow implements Runnable {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
-
+	
 }

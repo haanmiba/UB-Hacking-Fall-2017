@@ -21,4 +21,5 @@ public class Model {
 		_green = g;
 		_blue = b;
 	}
+
 }
