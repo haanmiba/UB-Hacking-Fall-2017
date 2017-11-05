@@ -14,6 +14,7 @@ public class Model {
 	//Color values to find
 	private int[] _rgbColor;
 	private float[] _hsbColor;
+	private int[][] expectedColors;
 	
 	public Model (MainWindow ui) {
 		_ui = ui;
@@ -21,21 +22,22 @@ public class Model {
 		_lives = 3;
 		_rgbColor = new int[] {0, 0, 0};
 		_hsbColor = new float[] {0, 1, 0};
+		expectedColors = new int[_ui.colorSpectrumResolution.width][_ui.colorSpectrumResolution.width];
+		generateExpectedColors();
 	}
 	
-	/**
-	 * Creates a randomly generated RGB values
-	 */
-	public void newColorToFind () {
-		_hsbColor[0] = _random.nextFloat();
-		_hsbColor[2] = _random.nextFloat();
-		int rgb = Color.HSBtoRGB(_hsbColor[0], _hsbColor[1], _hsbColor[2]);
-		_rgbColor[0] = (rgb>>16)&0xFF;
-		_rgbColor[1] = (rgb>>8)&0xFF;
-		_rgbColor[2] = rgb&0xFF;
-		_ui.setToFind(new Color(_rgbColor[0], _rgbColor[1],_rgbColor[2]));
+	private void generateExpectedColors() {
+		for (int x = 0; x < _ui.colorSpectrumResolution.width; x++) {
+			for (int y = 0; y < _ui.colorSpectrumResolution.width; y++) {
+				expectedColors[x][y] = Color.HSBtoRGB((float)(x)/_ui.colorSpectrumResolution.width, 1, 1-(float)(y)/_ui.colorSpectrumResolution.width);
+			}
+		}
 	}
 	
+	public void generateColorToFind() {
+		int colorValue = expectedColors[(int) Math.random() * _ui.colorSpectrumResolution.width][(int) Math.random() * _ui.colorSpectrumResolution.width];
+	}
+		
 	/**
 	 * Called by ColorPickerListener to get the values of the color chosen by the player
 	 * 
