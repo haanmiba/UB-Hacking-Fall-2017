@@ -74,6 +74,7 @@ public class Model {
 	public void resetGame() {
 		_points = 0;
 		_misses = 0;
+		_clicks = 0;
 	}
 	
 	/**
