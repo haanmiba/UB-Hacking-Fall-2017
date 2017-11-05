@@ -4,12 +4,9 @@ import user_interface.*;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class Model {
 
-	private Random _random;
 	private MainWindow _ui;
 	//Score of the player
 	private int _points, _lives;
