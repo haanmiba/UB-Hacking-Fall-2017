@@ -21,6 +21,7 @@ public class MainWindow implements Runnable {
 	private JPanel _frameLayers, _mainMenuPanel, _gamePanel, _infoPanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
 	private JLabel _roundsLabel, _scoreLabel, _guessesLabel;
 	private JLabel[][] _scoreInfo;
+	private JLabel[] _resultInfo;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -211,18 +212,22 @@ public class MainWindow implements Runnable {
 	 */
 	private void initializeResultPanel() {
 		_resultPanel = new JPanel();
-		_resultPanel.setLayout(new GridLayout(3, 0));
+		_resultPanel.setLayout(new GridLayout(6, 1));
 		
-		_scoreLabel = new JLabel();
-		_scoreLabel.setFont(new Font("Arial", Font.PLAIN, 36));
-		_scoreLabel.setForeground(Color.RED);
-
-		_guessesLabel = new JLabel();
-		_guessesLabel.setFont(new Font("Arial", Font.PLAIN, 36));
-		_guessesLabel.setForeground(Color.RED);
-
-		_resultPanel.add(_scoreLabel);
-		_resultPanel.add(_guessesLabel);
+		_resultInfo = new JLabel[5];
+		
+		String[] sectionTitles = new String[]{"Points:", "Rounds passed:", "Clicks Done", "Number of Misses:", "Accuracy:"};
+		for (int i=0; i<5; i+=1) {
+			JPanel section = new JPanel();
+			section.setLayout(new GridLayout(1,2));
+			JLabel text = new JLabel(sectionTitles[i]);
+			text.setFont(new Font("Arial", Font.PLAIN, 36));
+			section.add(text);
+			_resultInfo[i] = new JLabel();
+			_resultInfo[i].setFont(new Font("Arial", Font.PLAIN, 36));
+			section.add(_resultInfo[i]);
+			_resultPanel.add(section);
+		}
 		_resultPanel.add(createButton("Back to Main Menu", 9));
 	}
 	
@@ -251,9 +256,12 @@ public class MainWindow implements Runnable {
 		_lastSelectedSwatch.setBackground(new Color(c));
 	}
 	
-	public void setResultsPageData(int p, int m) {
-		_scoreLabel.setText("  Points: " + p);
-		_guessesLabel.setText("  Number of misses: " + m);
+	public void setResultsPageData(int points, int passedRounds, int clicks, int misses, int cumulativeAccuracy) {
+		_resultInfo[0].setText(points+"");
+		_resultInfo[1].setText(passedRounds+"");
+		_resultInfo[2].setText(clicks+"");
+		_resultInfo[3].setText(misses+"");
+		_resultInfo[4].setText(cumulativeAccuracy+"");
 	}
 	
 	public void switchPage(String s) {

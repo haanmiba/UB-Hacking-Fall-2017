@@ -69,7 +69,9 @@ public class Model {
 		_misses = 0;
 		_rounds = 10;
 		_accuracy = 0;
-		_passedRounds++;
+		_clicks = 0;
+		_cumulativeAccuracy = 0;
+		_passedRounds = 0;
 		updateUIinfo();
 	}
 	
@@ -78,15 +80,15 @@ public class Model {
 		_misses = 0;
 		_rounds = 10;
 		_accuracy = 0;
-		_clicks = 0;
-		_passedRounds++;
+		_cumulativeAccuracy = 0;
+		_passedRounds = 0;
 	}
 	
 	/**
 	 * Switches the menu to the results screen
 	 */
 	public void endGame() {
-		_ui.setResultsPageData(_points, _misses);
+		_ui.setResultsPageData(_points, _passedRounds, _clicks, _misses, _cumulativeAccuracy);
 		_ui.switchPage("RESULTS");
 	}
 	
@@ -163,7 +165,6 @@ public class Model {
 			_rounds--;
 			updateUIinfo();
 			if (_rounds == 0) {
-				System.out.println("Ending game: ");
 				endGame();
 			} else {
 				generateColorToFind();
