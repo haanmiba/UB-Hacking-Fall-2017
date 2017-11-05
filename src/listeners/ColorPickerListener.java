@@ -12,13 +12,13 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 
 	private Model _m;
 	private MainWindow _window;
-	private int selectedX, selectedY;
+	private int _selectedX, _selectedY;
 	
 	public ColorPickerListener (Model m, MainWindow mw) {
 		_m = m;
 		_window = mw;
-		selectedX = -1;
-		selectedY = -1;
+		_selectedX = -1;
+		_selectedY = -1;
 	}
 	
 	public void mouseClicked (MouseEvent e) { }
@@ -26,18 +26,18 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 	public void mousePressed (MouseEvent e) { }
 		
 	public void mouseReleased (MouseEvent e) {
-		selectedX = e.getX();
-		selectedY = e.getY();
+		_selectedX = e.getX();
+		_selectedY = e.getY();
 		// Send coordinates to model
 		
-		if ((selectedX >= 0 && selectedX < _window._colorSpectrumResolution.width) && 
-				(selectedY >= 0 && selectedY < _window._colorSpectrumResolution.width)) {
-			_m.setSelectedColor(selectedX, selectedY);
+		if ((_selectedX >= 0 && _selectedX < _window._colorSpectrumResolution.width) && 
+				(_selectedY >= 0 && _selectedY < _window._colorSpectrumResolution.width)) {
+			_m.setSelectedColor(_selectedX, _selectedY);
 		}
 		
 		// Reset selected coordinates
-		selectedX = -1;
-		selectedY = -1;
+		_selectedX = -1;
+		_selectedY = -1;
 	}
 
 	public void mouseEntered(MouseEvent e) { }
