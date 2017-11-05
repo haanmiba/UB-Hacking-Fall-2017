@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import listeners.ColorPickerListener;
 import model.Model;
@@ -49,7 +51,7 @@ public class MainWindow implements Runnable {
 		//Sets up the "to find" row
 		JPanel toFindPanel = new JPanel();
 		toFindPanel.setLayout(new GridLayout(1,2));
-		JLabel findText = new JLabel("Find This Color");
+		JLabel findText = new JLabel("Find This Color:");
 		findText.setHorizontalAlignment(JLabel.CENTER);
 		findText.setVerticalAlignment(JLabel.CENTER);
 		_toFindSwatch = new JPanel();
@@ -59,7 +61,7 @@ public class MainWindow implements Runnable {
 		//Sets up the "last picked" row
 		JPanel lastPicked = new JPanel();
 		lastPicked.setLayout(new GridLayout(1,2));
-		JLabel lastPickedText = new JLabel("Color You Last Selected");
+		JLabel lastPickedText = new JLabel("Color You Last Selected:");
 		lastPickedText.setHorizontalAlignment(JLabel.CENTER);
 		lastPickedText.setVerticalAlignment(JLabel.CENTER);
 		_lastSelectedSwatch = new JPanel();
@@ -70,7 +72,10 @@ public class MainWindow implements Runnable {
 		//add components to the info panel
 		infoPanel.add(toFindPanel);
 		infoPanel.add(lastPicked);
-		infoPanel.add(new JLabel("hi"));
+		infoPanel.add(new JLabel());
+		infoPanel.add(new JButton("Main"));
+		
+		_model.generateColorToFind();
 		
 		//DO NOT TOUCH
 		_frame.setSize(_appWidth, _appHeight);
@@ -89,14 +94,14 @@ public class MainWindow implements Runnable {
 		_colorSpectrumResolution = new Dimension(_appWidth/2, _appWidth/2);
 	}
 	
-	public void setToFindSwatch (Color c) {
-		_toFindSwatch.setBackground(c);
+	public void setToFindSwatch(int c) {
+		_toFindSwatch.setBackground(new Color(c));
 	}
 	
-	public void setLastPickedSwatch (Color c) {
-		_lastSelectedSwatch.setBackground(c);
+	public void setLastPickedSwatch(int c) {
+		_lastSelectedSwatch.setBackground(new Color(c));
 	}
-		
+	
 }
 
 class ColorSpectrumPanel extends JPanel {

@@ -51,7 +51,7 @@ public class Model {
 		_colorToFindPoint = new Point(-1, -1);
 		_selectedColorPoint = new Point(-1, -1);
 		_selectedColorDistanceToExpected = -1;
-		generateColorToFind();
+		//generateColorToFind();
 	}
 	
 	private void initializeAllValues() {
@@ -68,13 +68,17 @@ public class Model {
 		}
 	}
 	
-	private void generateColorToFind() {
+	public void generateColorToFind() {
 		int x = (int) (Math.random() * _ui._colorSpectrumResolution.width);
 		int y = (int) (Math.random() * _ui._colorSpectrumResolution.width);
-		_colorToFindPoint.setLocation(x, y);
+		while (y > 220) {
+			y = (int) (Math.random() * _ui._colorSpectrumResolution.width);
+		}
 		_colorToFind = _colorSpectrum[x][y];
+		_colorToFindPoint.setLocation(x, y);
 		System.out.println("Find this color: " + _colorToFind);
 		System.out.println("At this index: [" + x + "][" + y + "]");
+		_ui.setToFindSwatch(_colorToFind);
 	}
 
 	public void setSelectedColor(int x, int y) {
@@ -86,10 +90,11 @@ public class Model {
 		System.out.println("You were this close: " + _selectedColorDistanceToExpected);
 		if(successfulSelection()) {
 			System.out.println("You found it!");
+			generateColorToFind();
 		} else {
 			System.out.println("Keep trying!");
 		}
-		
+		_ui.setLastPickedSwatch(_selectedColor);
 	}
 	
 	public void calculateDistance() {
@@ -102,5 +107,6 @@ public class Model {
 		}
 		return false;
 	}
+	
 	
 }
