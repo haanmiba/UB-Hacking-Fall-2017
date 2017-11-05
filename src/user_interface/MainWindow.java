@@ -26,14 +26,13 @@ public class MainWindow implements Runnable {
 		setAppHeightAndWidth();
 		
 		BufferedImage image = createColorSpectrum();
-		ImageIcon i = new ImageIcon(image);
 		
 		_model = new Model();
 		_model.setUI(this);
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
 		JLabel testLabel = new JLabel();
-		testLabel.setIcon(i);
+		testLabel.setIcon(new ImageIcon(image));
 		
 		/*
 		mainPanel.add(testLabel);
@@ -62,28 +61,12 @@ public class MainWindow implements Runnable {
 		BufferedImage image = new BufferedImage(appWidth, appHeight, BufferedImage.TYPE_INT_ARGB);
 		
 		for (int x = 0; x < appWidth/2; x++) {
-			for (int y = 0; y < appHeight/2; y++) {
-				image.setRGB(x, y, (new Color(x % 256, y % 256, 0).getRGB()));
+			for (int y = 0; y < appHeight; y++) {
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/(appWidth/2), 1, (float)(y)/appHeight));
 			}
 		}
 		
 		return image;
-	}
-	
-}
-
-class ColorSpectrumPanel extends JPanel {
-	
-	BufferedImage image;
-	
-	public ColorSpectrumPanel (BufferedImage i) {
-		image = i;
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		g.drawImage(image, 0, 0 ,this);
 	}
 	
 }
