@@ -12,14 +12,11 @@ public class Model {
 	//Color values to find
 	private int[] _rgbColor;
 	
-	public Model () {
+	public Model (MainWindow ui) {
+		_ui = ui;
 		_points = 0;
 		_lives = 3;
 		_rgbColor = new int[] {0, 0, 0};
-	}
-	
-	public void setUI (MainWindow ui) {
-		_ui = ui;
 	}
 	
 	/**

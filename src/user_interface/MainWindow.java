@@ -27,20 +27,12 @@ public class MainWindow implements Runnable {
 		
 		BufferedImage image = createColorSpectrum();
 		
-		_model = new Model();
-		_model.setUI(this);
+		_model = new Model(this);
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
 		JLabel testLabel = new JLabel();
 		testLabel.setIcon(new ImageIcon(image));
 		
-		/*
-		mainPanel.add(testLabel);
-		frame.add(mainPanel);*/
-		
-		//ColorSpectrumPanel csp = new ColorSpectrumPanel(image);
-		
-		//frame.getContentPane().add(new JLabel(new ImageIcon("src/images/color-spectrum.jpg")));
 		
 		mainPanel.add(testLabel);
 		frame.add(mainPanel);
