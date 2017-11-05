@@ -45,6 +45,7 @@ public class MainWindow implements Runnable {
 		JPanel infoPanel = new JPanel();
 		_mainPanel.add(infoPanel);
 		infoPanel.setLayout(new GridLayout(4,1));
+		
 		//Sets up the "to find" row
 		JPanel toFindPanel = new JPanel();
 		toFindPanel.setLayout(new GridLayout(1,2));
