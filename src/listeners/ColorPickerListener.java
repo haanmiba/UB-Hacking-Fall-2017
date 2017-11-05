@@ -30,8 +30,8 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 		selectedY = e.getY();
 		// Send coordinates to model
 		
-		if ((selectedX >= 0 && selectedX < _window.colorSpectrumResolution.width) && 
-				(selectedY >= 0 && selectedY < _window.colorSpectrumResolution.width)) {
+		if ((selectedX >= 0 && selectedX < _window._colorSpectrumResolution.width) && 
+				(selectedY >= 0 && selectedY < _window._colorSpectrumResolution.width)) {
 			_m.setSelectedColor(selectedX, selectedY);
 		}
 		

@@ -28,22 +28,22 @@ public class Model {
 		selectedColor = 0;
 		colorToFindPoint = new Point(-1, -1);
 		selectedColorPoint = new Point(-1, -1);
-		expectedColors = new int[_ui.colorSpectrumResolution.width][_ui.colorSpectrumResolution.width];
+		expectedColors = new int[_ui._colorSpectrumResolution.width][_ui._colorSpectrumResolution.width];
 		generateExpectedColors();
 		generateColorToFind();
 	}
 	
 	private void generateExpectedColors() {
-		for (int x = 0; x < _ui.colorSpectrumResolution.width; x++) {
-			for (int y = 0; y < _ui.colorSpectrumResolution.width; y++) {
-				expectedColors[x][y] = Color.HSBtoRGB((float)(x)/_ui.colorSpectrumResolution.width, 1, 1-(float)(y)/_ui.colorSpectrumResolution.width);
+		for (int x = 0; x < _ui._colorSpectrumResolution.width; x++) {
+			for (int y = 0; y < _ui._colorSpectrumResolution.width; y++) {
+				expectedColors[x][y] = Color.HSBtoRGB((float)(x)/_ui._colorSpectrumResolution.width, 1, 1-(float)(y)/_ui._colorSpectrumResolution.width);
 			}
 		}
 	}
 	
 	public void generateColorToFind() {
-		int x = (int) (Math.random() * _ui.colorSpectrumResolution.width);
-		int y = (int) (Math.random() * _ui.colorSpectrumResolution.width);
+		int x = (int) (Math.random() * _ui._colorSpectrumResolution.width);
+		int y = (int) (Math.random() * _ui._colorSpectrumResolution.width);
 		colorToFindPoint.setLocation(x, y);
 		colorToFind = expectedColors[x][y];
 		System.out.println("Find this color: " + colorToFind);
@@ -55,7 +55,7 @@ public class Model {
 		selectedColorPoint.setLocation(x, y);
 		System.out.println("You selected this color: " + selectedColor);
 		System.out.println("At this index: [" + x + "][" + y + "]");
-		System.out.println("You were this close: " + selectedColorPoint.distance(colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui.colorSpectrumResolution.height, _ui.colorSpectrumResolution.width))));
+		System.out.println("You were this close: " + selectedColorPoint.distance(colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))));
 	}
 	
 }

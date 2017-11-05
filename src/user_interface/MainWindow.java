@@ -13,34 +13,48 @@ import model.Model;
 
 public class MainWindow implements Runnable {
 
-	private JFrame frame;
-	public int appWidth;
-	public int appHeight;
-	public Dimension colorSpectrumResolution;
+	public int _appWidth;
+	public int _appHeight;
+	public Dimension _colorSpectrumResolution;
 	
+	private JFrame _frame;
 	private Model _model;
-	private JPanel mainPanel;
-	private ColorSpectrumPanel csp;
+	private JPanel _mainPanel;
+	private ColorSpectrumPanel _csp;
 	
 	@Override
 	public void run() {
-		
+		//Sets the window to 1/4 of the entire screen
 		setAppHeightAndWidth();
-				
+		
 		_model = new Model(this);
-		frame = new JFrame("Project");
-		mainPanel = new JPanel();		
-		csp = new ColorSpectrumPanel(this);
+		_frame = new JFrame("Project");
+		_frame.setLayout(new GridLayout(1,1));
+		_mainPanel = new JPanel();
+		_frame.add(_mainPanel);
 		
-		initializeColorPicker();
+		//Set up the color picker on the game board
+		_csp = new ColorSpectrumPanel(this);
+		_frame.add(_csp);
+		ColorPickerListener pickerListener = new ColorPickerListener(_model, this);
+		_csp.addMouseListener(pickerListener);
+		_csp.addMouseMotionListener(pickerListener);
 		
-		frame.add(csp);
+		//Sets up the info panel 
+		JPanel infoPanel = new JPanel();
+		infoPanel.setLayout(new GridLayout(1,4));
+		JPanel toFindPanel = new JPanel();
+		infoPanel.add(toFindPanel);
+		JPanel lastChosenPanel = new JPanel();
+		infoPanel.add(lastChosenPanel);
+		_frame.add(_mainPanel);
+		_mainPanel.setLayout(new GridLayout(1,2));
 		
 		//DO NOT TOUCH
-		frame.setSize(appWidth, appHeight);
-		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_frame.setSize(_appWidth, _appHeight);
+		_frame.setResizable(false);
+		_frame.setVisible(true);
+		_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	/**
@@ -48,15 +62,9 @@ public class MainWindow implements Runnable {
 	 */
 	private void setAppHeightAndWidth() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		appWidth = screenSize.width / 2;
-		appHeight = screenSize.height / 2;
-		colorSpectrumResolution = new Dimension(appWidth/2, appWidth/2);
-	}
-	
-	private void initializeColorPicker() {
-		ColorPickerListener m = new ColorPickerListener(_model, this);
-		csp.addMouseListener(m);
-		csp.addMouseMotionListener(m);
+		_appWidth = screenSize.width / 2;
+		_appHeight = screenSize.height / 2;
+		_colorSpectrumResolution = new Dimension(_appWidth/2, _appWidth/2);
 	}
 		
 }
@@ -68,14 +76,14 @@ class ColorSpectrumPanel extends JPanel {
 	
 	public ColorSpectrumPanel(MainWindow mw) {
 		window = mw;
-		image = new BufferedImage(window.colorSpectrumResolution.width, window.colorSpectrumResolution.width, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(window._colorSpectrumResolution.width, window._colorSpectrumResolution.width, BufferedImage.TYPE_INT_ARGB);
 		initialize();
 	}
 	
 	public void initialize() {
-		for (int x = 0; x < window.colorSpectrumResolution.width; x++) {
-			for (int y = 0; y < window.colorSpectrumResolution.width; y++) {
-				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/window.colorSpectrumResolution.width, 1, 1-(float)(y)/window.colorSpectrumResolution.width));
+		for (int x = 0; x < window._colorSpectrumResolution.width; x++) {
+			for (int y = 0; y < window._colorSpectrumResolution.width; y++) {
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/window._colorSpectrumResolution.width, 1, 1-(float)(y)/window._colorSpectrumResolution.width));
 			}
 		}
 	}
@@ -85,5 +93,7 @@ class ColorSpectrumPanel extends JPanel {
 		super.paint(g);
 		g.drawImage(image, 0, 0, null);
 	}
-	
 }
+
+	
+
