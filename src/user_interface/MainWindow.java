@@ -15,41 +15,47 @@ public class MainWindow implements Runnable {
 	public Dimension _colorSpectrumResolution;
 	
 	private JFrame _frame;
-	private Model _model;
-	private JPanel panelChanger, _mainMenu, _mainPanel, _toFindSwatch, _lastSelectedSwatch;
+	public Model _model;
+	private CardLayout _cardLayout;
+	private JPanel _frameLayers, _mainMenuPanel, _gamePanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
 	public void run() {
-		//Sets the window to 1/4 of the entire screen
+		
+		// Sets the window to 1/4 of the entire screen
 		setAppHeightAndWidth();
 		
+		// Initializes our Model
 		_model = new Model(this);
+		
+		// Initialize our main frame
 		_frame = new JFrame("Project");
 		_frame.setLayout(new GridLayout(1,1));
-		_mainMenu = new JPanel();
 		
-		panelChanger = new JPanel(new CardLayout());
-		JButton startButton = new JButton("Main Menu");
-		startButton.addActionListener(new ButtonListener(this));
-		_mainMenu.add(startButton);
+		// Initializes our JPanel with a CardLayout that displays the different screens
+		_cardLayout = new CardLayout();
+		_frameLayers = new JPanel(_cardLayout);
 		
-		_mainPanel = new JPanel();
-		panelChanger.add(_mainMenu, "MAIN MENU");
-		panelChanger.add(_mainPanel, "MAIN PANEL");
-		_frame.add(panelChanger);
-		_mainPanel.setLayout(new GridLayout(1,2));
+		// Iinitialize our main menu;
+		initializeMainMenu();
+		
+		_gamePanel = new JPanel();
+		_frameLayers.add(_mainMenuPanel, "MAIN MENU");
+		_frameLayers.add(_gamePanel, "MAIN PANEL");
+		_frame.add(_frameLayers);
+		_gamePanel.setLayout(new GridLayout(1,2));
 		
 		//Set up the color picker on the game board
 		_csp = new ColorSpectrumPanel(this);
-		_mainPanel.add(_csp);
+		_gamePanel.add(_csp);
 		ColorPickerListener pickerListener = new ColorPickerListener(_model, this);
 		_csp.addMouseListener(pickerListener);
 		_csp.addMouseMotionListener(pickerListener);
 		
 		//Sets up the info panel 
 		JPanel infoPanel = new JPanel();
-		_mainPanel.add(infoPanel);
+		_gamePanel.add(infoPanel);
 		infoPanel.setLayout(new GridLayout(4,1));
 		
 		//Sets up the "to find" row
@@ -99,6 +105,39 @@ public class MainWindow implements Runnable {
 		_colorSpectrumResolution = new Dimension(_appWidth/2, _appWidth/2);
 	}
 	
+	private void initializeMainMenu() {
+		
+		_mainMenuPanel = new JPanel(new GridLayout(3, 1));
+		
+		JPanel middleOptions = new JPanel(new GridLayout(1, 2));
+		
+		JPanel modeButtons = new JPanel(new GridLayout(5, 1));
+		modeButtons.add(new JLabel("Mode:"));
+		modeButtons.add(createButton("Guess", 0));
+		modeButtons.add(createButton("Limited Guess", 1));
+		modeButtons.add(createButton("Timed", 2));
+		modeButtons.add(createButton("Quick Guess", 3));
+		middleOptions.add(modeButtons);
+		
+		JPanel difficultyButtons = new JPanel(new GridLayout(5, 1));
+		difficultyButtons.add(new JLabel("Difficulty:"));
+		difficultyButtons.add(createButton("Easy", 4));
+		difficultyButtons.add(createButton("Medium", 5));
+		difficultyButtons.add(createButton("Hard", 6));
+		difficultyButtons.add(createButton("Extreme", 7));
+		middleOptions.add(difficultyButtons);
+
+		_mainMenuPanel.add(new JLabel(new ImageIcon()));
+		_mainMenuPanel.add(middleOptions);
+		_mainMenuPanel.add(createButton("Start Game!", 8));
+	}
+	
+	private JButton createButton(String s, int select) {
+		JButton button = new JButton(s);
+		button.addActionListener(new ButtonListener(this, select));
+		return button;
+	}
+	
 	public void setToFindSwatch(int c) {
 		_toFindSwatch.setBackground(new Color(c));
 	}
@@ -108,8 +147,7 @@ public class MainWindow implements Runnable {
 	}
 	
 	public void nextPage() {
-		CardLayout c = (CardLayout) panelChanger.getLayout();
-		c.show(panelChanger, "MAIN PANEL");
+		_cardLayout.show(_frameLayers, "MAIN PANEL");
 	}
 	
 	
