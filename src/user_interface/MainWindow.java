@@ -216,7 +216,7 @@ public class MainWindow implements Runnable {
 		
 		_resultInfo = new JLabel[5];
 		
-		String[] sectionTitles = new String[]{"Points:", "Rounds passed:", "Clicks Done", "Number of Misses:", "Accuracy:"};
+		String[] sectionTitles = new String[]{"Points:", "Rounds passed:", "Clicks Done:", "Number of Misses:", "Accuracy:"};
 		for (int i=0; i<5; i+=1) {
 			JPanel section = new JPanel();
 			section.setLayout(new GridLayout(1,2));
