@@ -12,10 +12,10 @@ import model.Model;
 
 public class MainWindow implements Runnable {
 
-	
 	private JFrame frame;
 	private int appWidth;
 	private int appHeight;
+	public Dimension colorSpectrumDisplay;
 	
 	private JPanel mainPanel;
 	private Model _model;
@@ -32,15 +32,18 @@ public class MainWindow implements Runnable {
 		mainPanel = new JPanel();
 		
 		JLabel testLabel = new JLabel();
+		testLabel.setSize(appWidth/2, appWidth/2);
 		testLabel.setIcon(new ImageIcon(image));
 		
 		
-		mainPanel.add(testLabel);
-		frame.add(mainPanel);
+		ColorSpectrumPanel csp = new ColorSpectrumPanel(this);
+		
+		//mainPanel.add(testLabel);
+		frame.add(csp);
 		
 		//DO NOT TOUCH
 		frame.setSize(appWidth, appHeight);
-		//frame.setResizable(false);
+		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -52,21 +55,51 @@ public class MainWindow implements Runnable {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		appWidth = screenSize.width / 2;
 		appHeight = screenSize.height / 2;
+		colorSpectrumDisplay = new Dimension(appWidth/2, appWidth/2);
 	}
 	
 	private BufferedImage createColorSpectrum() {
+				
+		BufferedImage image = new BufferedImage(colorSpectrumDisplay.width, colorSpectrumDisplay.height, BufferedImage.TYPE_INT_ARGB);
 		
-		int squareDimension = appWidth/2;
-		
-		BufferedImage image = new BufferedImage(squareDimension, squareDimension, BufferedImage.TYPE_INT_ARGB);
-		
-		for (int x = 0; x < squareDimension; x++) {
-			for (int y = 0; y < squareDimension; y++) {
-				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/squareDimension, 1, 1-(float)(y)/squareDimension));
+		for (int x = 0; x < colorSpectrumDisplay.width; x++) {
+			for (int y = 0; y < colorSpectrumDisplay.height; y++) {
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/colorSpectrumDisplay.width, 1, 1-(float)(y)/colorSpectrumDisplay.height));
 			}
 		}
 		
 		return image;
+	}
+	
+	public Dimension getColorSpectrumSquare() {
+		return colorSpectrumDisplay;
+	}
+	
+}
+
+class ColorSpectrumPanel extends JPanel {
+	
+	private MainWindow window;
+	private BufferedImage image;
+	
+	public ColorSpectrumPanel(MainWindow mw) {
+		window = mw;
+		image = new BufferedImage(window.colorSpectrumDisplay.width, window.colorSpectrumDisplay.width, BufferedImage.TYPE_INT_ARGB);
+		initialize();
+	}
+	
+	public void initialize() {
+		for (int x = 0; x < window.colorSpectrumDisplay.width; x++) {
+			for (int y = 0; y < window.colorSpectrumDisplay.width; y++) {
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/window.colorSpectrumDisplay.width, 1, 1-(float)(y)/window.colorSpectrumDisplay.width));
+			}
+		}
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.drawImage(image, 0, 0, null);
 	}
 	
 }
