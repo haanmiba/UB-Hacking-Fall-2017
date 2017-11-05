@@ -80,26 +80,29 @@ public class MainWindow implements Runnable {
 		
 		JPanel middleOptions = new JPanel(new GridLayout(1, 2));
 		
-		/*
+		
 		JPanel modeButtons = new JPanel(new GridLayout(5, 1));
-		modeButtons.add(new JLabel("Mode:"));
+		modeButtons.add(new JLabel("  Mode:"));
 		modeButtons.add(createButton("Guess", 0));
 		modeButtons.add(createButton("Limited Guess", 1));
 		modeButtons.add(createButton("Timed", 2));
 		modeButtons.add(createButton("Quick Guess", 3));
-		middleOptions.add(modeButtons);*/
+		middleOptions.add(modeButtons);
 		
 		JPanel difficultyButtons = new JPanel(new GridLayout(5, 1));
-		difficultyButtons.add(new JLabel("Difficulty:"));
+		difficultyButtons.add(new JLabel("  Difficulty:"));
 		difficultyButtons.add(createButton("Easy", 4));
 		difficultyButtons.add(createButton("Medium", 5));
 		difficultyButtons.add(createButton("Hard", 6));
 		difficultyButtons.add(createButton("Extreme", 7));
 		middleOptions.add(difficultyButtons);
 
-		_mainMenuPanel.add(new JLabel(new ImageIcon()));
+		_mainMenuPanel.add(new JLabel(new ImageIcon("src/images/Huedunit Logo.png")));
 		_mainMenuPanel.add(middleOptions);
-		_mainMenuPanel.add(createButton("Start Game!", 8));
+		
+		JButton startGameButton = createButton("", 8);
+		startGameButton.setIcon(new ImageIcon("src/images/Start Button.png"));
+		_mainMenuPanel.add(startGameButton);
 	}
 	
 	/**
@@ -169,11 +172,11 @@ public class MainWindow implements Runnable {
 		_resultPanel.setLayout(new GridLayout(3, 0));
 		
 		_scoreLabel = new JLabel();
-		_scoreLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		_scoreLabel.setFont(new Font("Arial", Font.PLAIN, 36));
 		_scoreLabel.setForeground(Color.RED);
 
 		_guessesLabel = new JLabel();
-		_guessesLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		_guessesLabel.setFont(new Font("Arial", Font.PLAIN, 36));
 		_guessesLabel.setForeground(Color.RED);
 
 		_resultPanel.add(_scoreLabel);
@@ -195,16 +198,14 @@ public class MainWindow implements Runnable {
 		_lastSelectedSwatch.setBackground(new Color(c));
 	}
 	
-	public void setResultsPageData(int s, int g) {
-		_scoreLabel.setText("Points: " + s);
-		_guessesLabel.setText("Guesses used: " + g);
+	public void setResultsPageData(int p, int m) {
+		_scoreLabel.setText("Points: " + p);
+		_guessesLabel.setText("Number of misses: " + m);
 	}
 	
 	public void switchPage(String s) {
 		_cardLayout.show(_frameLayers, s);
 	}
-	
-	
 }
 
 class ColorSpectrumPanel extends JPanel {

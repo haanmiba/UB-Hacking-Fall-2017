@@ -13,7 +13,7 @@ public class Model {
 	// The data of the game
 	private int _gameMode;
 	private int _difficulty;
-	private int _guesses;
+	private int _misses;
 	private int _rounds;
 	private int _multiplier;
 	
@@ -45,25 +45,12 @@ public class Model {
 		
 		initializeAllValues();
 		
-		_gameMode = -1;
-		_difficulty = -1;
-		
-		_tolerance = .1;
-		
-		_points = 0;
-		_tries = 3;
-		_colorToFind = -1;
-		_selectedColor = -1;
-		_colorToFindPoint = new Point(-1, -1);
-		_selectedColorPoint = new Point(-1, -1);
-		_accuracy = -1;
-		//generateColorToFind();
 	}
 	
 	private void initializeAllValues() {
 		_gameMode = -1;
 		_difficulty = -1;
-		_guesses = 0;
+		_misses = 0;
 		_rounds = 0;
 		_multiplier = 0;
 		_tolerance = .1;
@@ -78,16 +65,17 @@ public class Model {
 	public void startGame() {
 		generateColorToFind();
 		_points = 0;
-		_guesses = 0;
+		_misses = 0;
 		_rounds = 3;
 	}
 	
 	public void resetGame() {
 		_points = 0;
+		_misses = 0;
 	}
 	
 	public void endGame() {
-		_ui.setResultsPageData(_points, _guesses);
+		_ui.setResultsPageData(_points, _misses);
 		_ui.switchPage("RESULTS");
 	}
 	
@@ -100,7 +88,7 @@ public class Model {
 				_colorSpectrum[x][y] = Color.HSBtoRGB((float)(x)/_ui._colorSpectrumResolution.width, 1, 1-(float)(y)/_ui._colorSpectrumResolution.width);
 			}
 		}
-		
+	
 	}
 	
 	public void setGameDifficulty(int select) {
@@ -112,16 +100,16 @@ public class Model {
 			_multiplier = 1;
 			break;
 		case 1:
-			_tolerance = .05;
+			_tolerance = .075;
 			_multiplier = 2;
 			break;
 		case 2:
-			_tolerance = .025;
-			_multiplier = 4;
+			_tolerance = .05;
+			_multiplier = 8;
 			break;
 		case 3:
-			_tolerance = .01;
-			_multiplier = 8;
+			_tolerance = .025;
+			_multiplier = 16;
 			break;
 		
 		}
@@ -144,17 +132,17 @@ public class Model {
 
 	public void setSelectedColor(int x, int y) {
 		
-		_guesses++;
-		
 		_selectedColor = _colorSpectrum[x][y];
 		_ui.setLastPickedSwatch(_selectedColor);
-		_selectedColorPoint.setLocation(x, y);
 		
-		calculateDistance();
+		_selectedColorPoint.setLocation(x, y);
+		calculateAccuracy();
 		
 		if(successfulSelection()) {
-			_points += (_multiplier * 1000) / _guesses;
+			
+			_points += (_multiplier * 1000) / ((_misses == 0) ? 1 : _misses);
 			_rounds--;
+			
 			if (_rounds == 0) {
 				System.out.println("Ending game: ");
 				endGame();
@@ -162,22 +150,19 @@ public class Model {
 				generateColorToFind();
 			}
 		} else {
-			
+			_misses += ((_misses == 0) ? 2 : 1);
 		}
+		
 	}
 	
-	private void calculateDistance() {
+	private void calculateAccuracy() {
 		Point negativePoint = new Point((-1 * _ui._colorSpectrumResolution.width) + _colorToFindPoint.x, _colorToFindPoint.y);
 		_accuracy = Math.min(_selectedColorPoint.distance(_colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))),
 				_selectedColorPoint.distance(negativePoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))));
 	}
 	
 	private boolean successfulSelection() {
-		if (_accuracy < _tolerance) {
-			return true;
-		}
-		return false;
+		return _accuracy < _tolerance;
 	}
-	
 	
 }

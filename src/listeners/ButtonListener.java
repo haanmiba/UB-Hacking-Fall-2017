@@ -49,6 +49,7 @@ public class ButtonListener implements ActionListener {
 			_window._model.resetGame();
 			break;
 		case 10:
+			break;
 		}
 	}
 
