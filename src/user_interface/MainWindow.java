@@ -8,37 +8,32 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import listeners.ColorPickerListener;
 import model.Model;
 
 public class MainWindow implements Runnable {
 
 	private JFrame frame;
-	private int appWidth;
-	private int appHeight;
-	public Dimension colorSpectrumDisplay;
+	public int appWidth;
+	public int appHeight;
+	public Dimension colorSpectrumResolution;
 	
-	private JPanel mainPanel;
 	private Model _model;
+	private JPanel mainPanel;
+	private ColorSpectrumPanel csp;
 	
 	@Override
 	public void run() {
 		
 		setAppHeightAndWidth();
-		
-		BufferedImage image = createColorSpectrum();
-		
+				
 		_model = new Model(this);
 		frame = new JFrame("Project");
-		mainPanel = new JPanel();
+		mainPanel = new JPanel();		
+		csp = new ColorSpectrumPanel(this);
 		
-		JLabel testLabel = new JLabel();
-		testLabel.setSize(appWidth/2, appWidth/2);
-		testLabel.setIcon(new ImageIcon(image));
+		initializeColorPicker();
 		
-		
-		ColorSpectrumPanel csp = new ColorSpectrumPanel(this);
-		
-		//mainPanel.add(testLabel);
 		frame.add(csp);
 		
 		//DO NOT TOUCH
@@ -55,26 +50,15 @@ public class MainWindow implements Runnable {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		appWidth = screenSize.width / 2;
 		appHeight = screenSize.height / 2;
-		colorSpectrumDisplay = new Dimension(appWidth/2, appWidth/2);
+		colorSpectrumResolution = new Dimension(appWidth/2, appWidth/2);
 	}
 	
-	private BufferedImage createColorSpectrum() {
-				
-		BufferedImage image = new BufferedImage(colorSpectrumDisplay.width, colorSpectrumDisplay.height, BufferedImage.TYPE_INT_ARGB);
+	private void initializeColorPicker() {
+		ColorPickerListener m = new ColorPickerListener(_model);
+		csp.addMouseListener(m);
+		csp.addMouseMotionListener(m);
+	}
 		
-		for (int x = 0; x < colorSpectrumDisplay.width; x++) {
-			for (int y = 0; y < colorSpectrumDisplay.height; y++) {
-				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/colorSpectrumDisplay.width, 1, 1-(float)(y)/colorSpectrumDisplay.height));
-			}
-		}
-		
-		return image;
-	}
-	
-	public Dimension getColorSpectrumSquare() {
-		return colorSpectrumDisplay;
-	}
-	
 }
 
 class ColorSpectrumPanel extends JPanel {
@@ -84,14 +68,14 @@ class ColorSpectrumPanel extends JPanel {
 	
 	public ColorSpectrumPanel(MainWindow mw) {
 		window = mw;
-		image = new BufferedImage(window.colorSpectrumDisplay.width, window.colorSpectrumDisplay.width, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(window.colorSpectrumResolution.width, window.colorSpectrumResolution.width, BufferedImage.TYPE_INT_ARGB);
 		initialize();
 	}
 	
 	public void initialize() {
-		for (int x = 0; x < window.colorSpectrumDisplay.width; x++) {
-			for (int y = 0; y < window.colorSpectrumDisplay.width; y++) {
-				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/window.colorSpectrumDisplay.width, 1, 1-(float)(y)/window.colorSpectrumDisplay.width));
+		for (int x = 0; x < window.colorSpectrumResolution.width; x++) {
+			for (int y = 0; y < window.colorSpectrumResolution.width; y++) {
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/window.colorSpectrumResolution.width, 1, 1-(float)(y)/window.colorSpectrumResolution.width));
 			}
 		}
 	}
