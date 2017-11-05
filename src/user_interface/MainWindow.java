@@ -18,7 +18,7 @@ public class MainWindow implements Runnable {
 	public Model _model;
 	private CardLayout _cardLayout;
 	private JPanel _frameLayers, _mainMenuPanel, _gamePanel, _infoPanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
-	private JLabel _scoreLabel, _guessesLabel;
+	private JLabel _roundsLabel, _scoreLabel, _guessesLabel;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -31,7 +31,7 @@ public class MainWindow implements Runnable {
 		_model = new Model(this);
 		
 		// Initialize our main frame
-		_frame = new JFrame("Project");
+		_frame = new JFrame("Huedunit");
 		_frame.setLayout(new GridLayout(1,1));
 		
 		// Initializes our JPanel with a CardLayout that displays the different screens
@@ -76,18 +76,26 @@ public class MainWindow implements Runnable {
 	 */
 	private void initializeMainMenuPanel() {
 		
-		_mainMenuPanel = new JPanel(new GridLayout(3, 1));
+		_mainMenuPanel = new JPanel(new GridLayout(4, 1));
+		_mainMenuPanel.add(new JLabel(new ImageIcon("src/images/Huedunit Logo.png")));
+
+		JLabel description = new JLabel("Can you survive 10 rounds of testing your color guessing skills? Let's find out!");
+		description.setFont(new Font("Helvetica", Font.PLAIN, 15));
+		description.setHorizontalAlignment(JLabel.CENTER);
+		_mainMenuPanel.add(description);
 		
-		JPanel middleOptions = new JPanel(new GridLayout(1, 2));
+		JPanel middleOptions = new JPanel(new GridLayout(1, 3));		
 		
-		
+		/*
 		JPanel modeButtons = new JPanel(new GridLayout(5, 1));
 		modeButtons.add(new JLabel("  Mode:"));
 		modeButtons.add(createButton("Guess", 0));
 		modeButtons.add(createButton("Limited Guess", 1));
 		modeButtons.add(createButton("Timed", 2));
 		modeButtons.add(createButton("Quick Guess", 3));
-		middleOptions.add(modeButtons);
+		middleOptions.add(modeButtons);*/
+		
+		middleOptions.add(new JLabel());
 		
 		JPanel difficultyButtons = new JPanel(new GridLayout(5, 1));
 		difficultyButtons.add(new JLabel("  Difficulty:"));
@@ -96,9 +104,10 @@ public class MainWindow implements Runnable {
 		difficultyButtons.add(createButton("Hard", 6));
 		difficultyButtons.add(createButton("Extreme", 7));
 		middleOptions.add(difficultyButtons);
+		middleOptions.add(new JLabel());
 
-		_mainMenuPanel.add(new JLabel(new ImageIcon("src/images/Huedunit Logo.png")));
 		_mainMenuPanel.add(middleOptions);
+		
 		
 		JButton startGameButton = createButton("", 8);
 		startGameButton.setIcon(new ImageIcon("src/images/Start Button.png"));
@@ -162,9 +171,17 @@ public class MainWindow implements Runnable {
 		//add components to the info panel
 		_infoPanel.add(toFindPanel);
 		_infoPanel.add(lastPicked);
-		_infoPanel.add(new JLabel());
+		
+		_roundsLabel = new JLabel("  Rounds: ");
+		_roundsLabel.setFont(new Font("Helvetica", Font.PLAIN, 16));
+		
+		_infoPanel.add(_roundsLabel);
 		_infoPanel.add(buttons);
 				
+	}
+	
+	public void updateInfoPanel(int r) {
+		_roundsLabel.setText("  Rounds: " + r);
 	}
 	
 	private void initializeResultPanel() {
@@ -199,8 +216,8 @@ public class MainWindow implements Runnable {
 	}
 	
 	public void setResultsPageData(int p, int m) {
-		_scoreLabel.setText("Points: " + p);
-		_guessesLabel.setText("Number of misses: " + m);
+		_scoreLabel.setText("  Points: " + p);
+		_guessesLabel.setText("  Number of misses: " + m);
 	}
 	
 	public void switchPage(String s) {

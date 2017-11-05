@@ -66,7 +66,8 @@ public class Model {
 		generateColorToFind();
 		_points = 0;
 		_misses = 0;
-		_rounds = 3;
+		_rounds = 10;
+		_ui.updateInfoPanel(_rounds);
 	}
 	
 	public void resetGame() {
@@ -142,6 +143,7 @@ public class Model {
 			
 			_points += (_multiplier * 1000) / ((_misses == 0) ? 1 : _misses);
 			_rounds--;
+			_ui.updateInfoPanel(_rounds);
 			
 			if (_rounds == 0) {
 				System.out.println("Ending game: ");
