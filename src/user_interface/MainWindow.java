@@ -39,17 +39,22 @@ public class MainWindow implements Runnable {
 		
 		//DO NOT TOUCH
 		frame.setSize(appWidth, appHeight);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setResizable(false);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public void setAppHeightAndWidth() {
+	/**
+	 * Sets the app height and width (it will be a quarter of the user's screen size).
+	 */
+	private void setAppHeightAndWidth() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		appWidth = screenSize.width / 2;
 		appHeight = screenSize.height / 2;
 	}
 	
-	public BufferedImage createColorSpectrum() {
+	private BufferedImage createColorSpectrum() {
+		
 		BufferedImage image = new BufferedImage(appWidth, appHeight, BufferedImage.TYPE_INT_ARGB);
 		
 		for (int x = 0; x < appWidth/2; x++) {
