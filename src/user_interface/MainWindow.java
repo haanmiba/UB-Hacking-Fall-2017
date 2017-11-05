@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import images.ImgResourceLoader;
 import listeners.*;
 import model.Model;
 
@@ -77,7 +78,7 @@ public class MainWindow implements Runnable {
 	private void initializeMainMenuPanel() {
 		
 		_mainMenuPanel = new JPanel(new GridLayout(4, 1));
-		_mainMenuPanel.add(new JLabel(new ImageIcon("src/images/Huedunit Logo.png")));
+		_mainMenuPanel.add(new JLabel(new ImageIcon(ImgResourceLoader.getImage("Huedunit Logo.png"))));
 
 		JLabel description = new JLabel("Can you survive 10 rounds of testing your color guessing skills? Let's find out!");
 		description.setFont(new Font("Helvetica", Font.PLAIN, 15));
@@ -85,15 +86,6 @@ public class MainWindow implements Runnable {
 		_mainMenuPanel.add(description);
 		
 		JPanel middleOptions = new JPanel(new GridLayout(1, 3));		
-		
-		/*
-		JPanel modeButtons = new JPanel(new GridLayout(5, 1));
-		modeButtons.add(new JLabel("  Mode:"));
-		modeButtons.add(createButton("Guess", 0));
-		modeButtons.add(createButton("Limited Guess", 1));
-		modeButtons.add(createButton("Timed", 2));
-		modeButtons.add(createButton("Quick Guess", 3));
-		middleOptions.add(modeButtons);*/
 		
 		middleOptions.add(new JLabel());
 		
@@ -110,7 +102,7 @@ public class MainWindow implements Runnable {
 		
 		
 		JButton startGameButton = createButton("", 8);
-		startGameButton.setIcon(new ImageIcon("src/images/Start Button.png"));
+		startGameButton.setIcon(new ImageIcon(ImgResourceLoader.getImage("Start Button.png")));
 		_mainMenuPanel.add(startGameButton);
 	}
 	
@@ -137,6 +129,9 @@ public class MainWindow implements Runnable {
 		_csp.addMouseListener(new ColorPickerListener(this));
 	}
 	
+	/**
+	 * Initializes the info panel
+	 */
 	private void initializeInfoPanel() {
 		
 		_infoPanel = new JPanel();
@@ -180,10 +175,17 @@ public class MainWindow implements Runnable {
 				
 	}
 	
+	/**
+	 * Updates the rounds
+	 * @param r - number of round
+	 */
 	public void updateInfoPanel(int r) {
 		_roundsLabel.setText("  Rounds: " + r);
 	}
 	
+	/**
+	 * Initializes the result/score panel
+	 */
 	private void initializeResultPanel() {
 		_resultPanel = new JPanel();
 		_resultPanel.setLayout(new GridLayout(3, 0));
@@ -207,10 +209,20 @@ public class MainWindow implements Runnable {
 		return button;
 	}
 	
+	/**
+	 * Sets the "to find" swatch to the color passed
+	 * 
+	 * @param c - the color as an int obtained through HSBtoRGB
+	 */
 	public void setToFindSwatch(int c) {
 		_toFindSwatch.setBackground(new Color(c));
 	}
 	
+	/**
+	 * Sets the "last picked" swatch to the color passed
+	 * 
+	 * @param c - the color as an int obtained through HSBtoRGB
+	 */
 	public void setLastPickedSwatch(int c) {
 		_lastSelectedSwatch.setBackground(new Color(c));
 	}
@@ -227,6 +239,7 @@ public class MainWindow implements Runnable {
 
 class ColorSpectrumPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private MainWindow window;
 	private BufferedImage image;
 	
