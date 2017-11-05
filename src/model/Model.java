@@ -78,6 +78,7 @@ public class Model {
 		_misses = 0;
 		_rounds = 10;
 		_accuracy = 0;
+		_clicks = 0;
 		_passedRounds++;
 	}
 	
