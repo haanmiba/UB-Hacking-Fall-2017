@@ -24,7 +24,7 @@ public class Model {
 	private int[][] _colorSpectrum;
 
 	// Score of the player
-	private int _points, _tries;
+	private int _points, _clicks, _cumulativeAccuracy;
 	
 	// Color values to find
 	private int _colorToFind;
@@ -55,7 +55,7 @@ public class Model {
 		_multiplier = 0;
 		_tolerance = .1;
 		_points = 0;
-		_tries = 0;
+		_clicks = 0;
 		_colorToFind = 0;
 		_colorToFindPoint = new Point(-1, -1);
 		_selectedColorPoint = new Point(-1, -1);
@@ -67,7 +67,8 @@ public class Model {
 		_points = 0;
 		_misses = 0;
 		_rounds = 10;
-		_ui.updateInfoPanel(_rounds);
+		_accuracy = 100;
+		updateUIinfo();
 	}
 	
 	public void resetGame() {
@@ -139,6 +140,9 @@ public class Model {
 	 * @param y - y-coordinate of the selection
 	 */
 	public void setSelectedColor(int x, int y) {
+		_clicks+=1;
+		_cumulativeAccuracy = (int)(_rounds*100.0f)/_clicks;
+		updateUIinfo();
 		
 		_selectedColor = _colorSpectrum[x][y];
 		_ui.setLastPickedSwatch(_selectedColor);
@@ -149,9 +153,8 @@ public class Model {
 		if(successfulSelection()) {
 			
 			_points += (_multiplier * 1000) / ((_misses == 0) ? 1 : _misses);
-			_rounds--;
-			_ui.updateInfoPanel(_rounds);
-			
+			_rounds++;
+			updateUIinfo();
 			if (_rounds == 0) {
 				System.out.println("Ending game: ");
 				endGame();
@@ -183,4 +186,7 @@ public class Model {
 		return _accuracy < _tolerance;
 	}
 	
+	public void updateUIinfo () {
+		_ui.updateInfoPanel(_rounds, _points, _clicks, _cumulativeAccuracy);
+	}
 }

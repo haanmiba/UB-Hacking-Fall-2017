@@ -20,6 +20,7 @@ public class MainWindow implements Runnable {
 	private CardLayout _cardLayout;
 	private JPanel _frameLayers, _mainMenuPanel, _gamePanel, _infoPanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
 	private JLabel _roundsLabel, _scoreLabel, _guessesLabel;
+	private JLabel[][] _scoreInfo;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -141,6 +142,7 @@ public class MainWindow implements Runnable {
 		JPanel toFindPanel = new JPanel();
 		toFindPanel.setLayout(new GridLayout(1,2));
 		JLabel findText = new JLabel("Find This Color:");
+		findText.setFont(new Font("Helvetica", Font.PLAIN, 16));
 		findText.setHorizontalAlignment(JLabel.CENTER);
 		findText.setVerticalAlignment(JLabel.CENTER);
 		_toFindSwatch = new JPanel();
@@ -152,6 +154,7 @@ public class MainWindow implements Runnable {
 		JPanel lastPicked = new JPanel();
 		lastPicked.setLayout(new GridLayout(1,2));
 		JLabel lastPickedText = new JLabel("Color You Last Selected:");
+		lastPickedText.setFont(new Font("Helvetica", Font.PLAIN, 16));
 		lastPickedText.setHorizontalAlignment(JLabel.CENTER);
 		lastPickedText.setVerticalAlignment(JLabel.CENTER);
 		_lastSelectedSwatch = new JPanel();
@@ -159,6 +162,27 @@ public class MainWindow implements Runnable {
 		lastPicked.add(_lastSelectedSwatch);
 		_lastSelectedSwatch.setBackground(new Color(0,0,0));
 
+		//Sets up the scoring panel
+		JPanel scoreBoard = new JPanel();
+		scoreBoard.setLayout(new GridLayout(2,4));
+		_scoreInfo = new JLabel[2][4];
+		_scoreInfo[0][0] = new JLabel("Rounds Left:");
+		_scoreInfo[0][1] = new JLabel();
+		_scoreInfo[0][2] = new JLabel("Score:");
+		_scoreInfo[0][3] = new JLabel();
+		_scoreInfo[1][0] = new JLabel("Clicks Used:");
+		_scoreInfo[1][1] = new JLabel();
+		_scoreInfo[1][2] = new JLabel("Your Accuracy:");
+		_scoreInfo[1][3] = new JLabel();
+		for (int r=0; r<2; r+=1) {
+			for (int c=0; c<4; c+=1) {
+				_scoreInfo[r][c].setFont(new Font("Helvetica", Font.PLAIN, 16));
+				_scoreInfo[r][c].setHorizontalAlignment(JLabel.RIGHT);
+				_scoreInfo[r][c].setVerticalAlignment(JLabel.CENTER);
+				scoreBoard.add(_scoreInfo[r][c]);
+			}
+		}
+		
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
 		buttons.add(createButton("Back to Main Menu", 9));
@@ -166,11 +190,7 @@ public class MainWindow implements Runnable {
 		//add components to the info panel
 		_infoPanel.add(toFindPanel);
 		_infoPanel.add(lastPicked);
-		
-		_roundsLabel = new JLabel("  Rounds: ");
-		_roundsLabel.setFont(new Font("Helvetica", Font.PLAIN, 16));
-		
-		_infoPanel.add(_roundsLabel);
+		_infoPanel.add(scoreBoard);
 		_infoPanel.add(buttons);
 				
 	}
@@ -179,8 +199,11 @@ public class MainWindow implements Runnable {
 	 * Updates the rounds
 	 * @param r - number of round
 	 */
-	public void updateInfoPanel(int r) {
-		_roundsLabel.setText("  Rounds: " + r);
+	public void updateInfoPanel(int rounds, int points, int clicks, int accuracy) {
+		_scoreInfo[0][1].setText(rounds+"");
+		_scoreInfo[0][3].setText(points+"");
+		_scoreInfo[1][1].setText(clicks+"");
+		_scoreInfo[1][3].setText(accuracy + " %");
 	}
 	
 	/**
