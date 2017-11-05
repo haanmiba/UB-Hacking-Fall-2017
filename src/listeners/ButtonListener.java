@@ -49,6 +49,8 @@ public class ButtonListener implements ActionListener {
 			_window._model.resetGame();
 			break;
 		case 10:
+			_window.switchPage("RESULTS");
+			_window._model.endGame();
 			break;
 		}
 	}

@@ -185,7 +185,7 @@ public class MainWindow implements Runnable {
 		
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(1, 2));
-		buttons.add(createButton("Back to Main Menu", 9));
+		buttons.add(createButton("Quit", 10));
 		
 		//add components to the info panel
 		_infoPanel.add(toFindPanel);
@@ -229,6 +229,7 @@ public class MainWindow implements Runnable {
 	private JButton createButton(String s, int select) {
 		JButton button = new JButton(s);
 		button.addActionListener(new ButtonListener(this, select));
+		button.setFont(new Font("Helvetica", Font.PLAIN, 20));
 		return button;
 	}
 	
