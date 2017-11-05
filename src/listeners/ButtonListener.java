@@ -29,17 +29,26 @@ public class ButtonListener implements ActionListener {
 		case 3:
 			break;
 		case 4:
+			_window._model.setGameDifficulty(0);
 			break;
 		case 5:
+			_window._model.setGameDifficulty(1);
 			break;
 		case 6:
+			_window._model.setGameDifficulty(2);
 			break;
 		case 7:
+			_window._model.setGameDifficulty(3);
 			break;
 		case 8:
-			_window.nextPage();
+			_window.switchPage("GAME");
+			_window._model.startGame();
 			break;
-
+		case 9:
+			_window.switchPage("MAIN MENU");
+			_window._model.resetGame();
+			break;
+		case 10:
 		}
 	}
 
