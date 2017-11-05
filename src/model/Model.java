@@ -153,7 +153,7 @@ public class Model {
 		if(successfulSelection()) {
 			
 			_points += (_multiplier * 1000) / ((_misses == 0) ? 1 : _misses);
-			_rounds++;
+			_rounds--;
 			updateUIinfo();
 			if (_rounds == 0) {
 				System.out.println("Ending game: ");
