@@ -24,7 +24,7 @@ public class Model {
 	private int[][] _colorSpectrum;
 
 	// Score of the player
-	private int _points, _clicks, _cumulativeAccuracy;
+	private int _points, _clicks, _cumulativeAccuracy, _passedRounds;
 	
 	// Color values to find
 	private int _colorToFind;
@@ -60,6 +60,7 @@ public class Model {
 		_colorToFindPoint = new Point(-1, -1);
 		_selectedColorPoint = new Point(-1, -1);
 		_accuracy = -1;
+		_passedRounds=0;
 	}
 
 	public void startGame() {
@@ -67,13 +68,17 @@ public class Model {
 		_points = 0;
 		_misses = 0;
 		_rounds = 10;
-		_accuracy = 100;
+		_accuracy = 0;
+		_passedRounds++;
 		updateUIinfo();
 	}
 	
 	public void resetGame() {
 		_points = 0;
 		_misses = 0;
+		_rounds = 10;
+		_accuracy = 0;
+		_passedRounds++;
 	}
 	
 	/**
@@ -141,7 +146,7 @@ public class Model {
 	 */
 	public void setSelectedColor(int x, int y) {
 		_clicks+=1;
-		_cumulativeAccuracy = (int)(_rounds*100.0f)/_clicks;
+		_cumulativeAccuracy = (int)(_passedRounds*100.0f)/_clicks;
 		updateUIinfo();
 		
 		_selectedColor = _colorSpectrum[x][y];
@@ -153,7 +158,8 @@ public class Model {
 		if(successfulSelection()) {
 			
 			_points += (_multiplier * 1000) / ((_misses == 0) ? 1 : _misses);
-			_rounds++;
+			_passedRounds++;
+			_rounds--;
 			updateUIinfo();
 			if (_rounds == 0) {
 				System.out.println("Ending game: ");
