@@ -12,18 +12,19 @@ public class Model {
 	//Score of the player
 	private int _points, _lives;
 	//Color values to find
-	private int[] _rgbColor;
-	private float[] _hsbColor;
+	private int colorToFind;
+	private int selectedColor;
 	private int[][] expectedColors;
 	
 	public Model (MainWindow ui) {
 		_ui = ui;
 		_points = 0;
 		_lives = 3;
-		_rgbColor = new int[] {0, 0, 0};
-		_hsbColor = new float[] {0, 1, 0};
+		colorToFind = 0;
+		selectedColor = 0;
 		expectedColors = new int[_ui.colorSpectrumResolution.width][_ui.colorSpectrumResolution.width];
 		generateExpectedColors();
+		generateColorToFind();
 	}
 	
 	private void generateExpectedColors() {
@@ -35,7 +36,11 @@ public class Model {
 	}
 	
 	public void generateColorToFind() {
-		int colorValue = expectedColors[(int) Math.random() * _ui.colorSpectrumResolution.width][(int) Math.random() * _ui.colorSpectrumResolution.width];
+		int x = (int) (Math.random() * _ui.colorSpectrumResolution.width);
+		int y = (int) (Math.random() * _ui.colorSpectrumResolution.width);
+		colorToFind = expectedColors[x][y];
+		System.out.println("Find this color: " + colorToFind);
+		System.out.println("At this index: [" + x + "][" + y + "]");
 	}
 		
 	/**
@@ -48,4 +53,10 @@ public class Model {
 		
 	}
 
+	public void setSelectedColor(int x, int y) {
+		selectedColor = expectedColors[x][y];
+		System.out.println("You selected this color: " + selectedColor);
+		System.out.println("At this index: [" + x + "][" + y + "]");
+	}
+	
 }

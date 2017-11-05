@@ -16,15 +16,9 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 		_m = m;
 		selectedX = -1;
 		selectedY = -1;
-		
 	}
 	
 	public void mouseClicked (MouseEvent e) {
-		selectedX = e.getX();
-		selectedY = e.getY();
-		// Send coordinates to model
-		System.out.println("X: " + e.getX() + "\nY: " + e.getY());
-
 	}
 	
 	public void mousePressed (MouseEvent e) { }
@@ -33,6 +27,7 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 		selectedX = e.getX();
 		selectedY = e.getY();
 		// Send coordinates to model
+		_m.setSelectedColor(selectedX, selectedY);
 		selectedX = -1;
 		selectedY = -1;
 	}
