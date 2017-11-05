@@ -62,7 +62,7 @@ public class MainWindow implements Runnable {
 		
 		for (int x = 0; x < squareDimension; x++) {
 			for (int y = 0; y < squareDimension; y++) {
-				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/(appWidth/2), 1, (float)(y)/appHeight));
+				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/squareDimension, 1, 1-(float)(y)/squareDimension));
 			}
 		}
 		
