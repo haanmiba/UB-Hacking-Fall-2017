@@ -49,16 +49,6 @@ public class Model {
 		System.out.println("Find this color: " + colorToFind);
 		System.out.println("At this index: [" + x + "][" + y + "]");
 	}
-		
-	/**
-	 * Called by ColorPickerListener to get the values of the color chosen by the player
-	 * 
-	 * @param A - 
-	 * @param B -
-	 */
-	public void setPickedColorValues (int A, int B) {
-		
-	}
 
 	public void setSelectedColor(int x, int y) {
 		selectedColor = expectedColors[x][y];

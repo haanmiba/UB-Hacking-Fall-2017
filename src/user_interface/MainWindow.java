@@ -54,7 +54,7 @@ public class MainWindow implements Runnable {
 	}
 	
 	private void initializeColorPicker() {
-		ColorPickerListener m = new ColorPickerListener(_model);
+		ColorPickerListener m = new ColorPickerListener(_model, this);
 		csp.addMouseListener(m);
 		csp.addMouseMotionListener(m);
 	}
