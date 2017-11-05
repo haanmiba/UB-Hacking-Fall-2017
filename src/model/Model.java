@@ -65,7 +65,7 @@ public class Model {
 		selectedColorPoint.setLocation(x, y);
 		System.out.println("You selected this color: " + selectedColor);
 		System.out.println("At this index: [" + x + "][" + y + "]");
-		System.out.println("You were this close: " + selectedColorPoint.distance(colorToFindPoint));
+		System.out.println("You were this close: " + selectedColorPoint.distance(colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui.colorSpectrumResolution.height, _ui.colorSpectrumResolution.width))));
 	}
 	
 }
