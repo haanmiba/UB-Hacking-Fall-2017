@@ -30,6 +30,7 @@ public class MainWindow implements Runnable {
 		_model = new Model(this);
 		frame = new JFrame("Project");
 		mainPanel = new JPanel();
+		
 		JLabel testLabel = new JLabel();
 		testLabel.setIcon(new ImageIcon(image));
 		
@@ -55,10 +56,12 @@ public class MainWindow implements Runnable {
 	
 	private BufferedImage createColorSpectrum() {
 		
-		BufferedImage image = new BufferedImage(appWidth, appHeight, BufferedImage.TYPE_INT_ARGB);
+		int squareDimension = appWidth/2;
 		
-		for (int x = 0; x < appWidth/2; x++) {
-			for (int y = 0; y < appHeight; y++) {
+		BufferedImage image = new BufferedImage(squareDimension, squareDimension, BufferedImage.TYPE_INT_ARGB);
+		
+		for (int x = 0; x < squareDimension; x++) {
+			for (int y = 0; y < squareDimension; y++) {
 				image.setRGB(x, y, Color.HSBtoRGB((float)(x)/(appWidth/2), 1, (float)(y)/appHeight));
 			}
 		}
