@@ -42,7 +42,7 @@ public class Model {
 		_gameMode = -1;
 		_difficulty = -1;
 		
-		_tolerance = .1;
+		_tolerance = .05;
 		
 		_points = 0;
 		_tries = 3;
@@ -76,8 +76,6 @@ public class Model {
 		}
 		_colorToFind = _colorSpectrum[x][y];
 		_colorToFindPoint.setLocation(x, y);
-		System.out.println("Find this color: " + _colorToFind);
-		System.out.println("At this index: [" + x + "][" + y + "]");
 		_ui.setToFindSwatch(_colorToFind);
 	}
 
@@ -85,20 +83,18 @@ public class Model {
 		_selectedColor = _colorSpectrum[x][y];
 		_selectedColorPoint.setLocation(x, y);
 		calculateDistance();
-		System.out.println("You selected this color: " + _selectedColor);
-		System.out.println("At this index: [" + x + "][" + y + "]");
-		System.out.println("You were this close: " + _selectedColorDistanceToExpected);
 		if(successfulSelection()) {
-			System.out.println("You found it!");
 			generateColorToFind();
 		} else {
-			System.out.println("Keep trying!");
+			
 		}
 		_ui.setLastPickedSwatch(_selectedColor);
 	}
 	
 	public void calculateDistance() {
-		_selectedColorDistanceToExpected = _selectedColorPoint.distance(_colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width)));
+		Point negativePoint = new Point((-1 * _ui._colorSpectrumResolution.width) + _colorToFindPoint.x, _colorToFindPoint.y);
+		_selectedColorDistanceToExpected = Math.min(_selectedColorPoint.distance(_colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))),
+				_selectedColorPoint.distance(negativePoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))));
 	}
 	
 	public boolean successfulSelection() {

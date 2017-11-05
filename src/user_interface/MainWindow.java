@@ -2,15 +2,10 @@ package user_interface;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 
-import listeners.ColorPickerListener;
+import listeners.*;
 import model.Model;
 
 public class MainWindow implements Runnable {
@@ -21,7 +16,7 @@ public class MainWindow implements Runnable {
 	
 	private JFrame _frame;
 	private Model _model;
-	private JPanel _mainPanel, _toFindSwatch, _lastSelectedSwatch;
+	private JPanel panelChanger, _mainMenu, _mainPanel, _toFindSwatch, _lastSelectedSwatch;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -32,8 +27,17 @@ public class MainWindow implements Runnable {
 		_model = new Model(this);
 		_frame = new JFrame("Project");
 		_frame.setLayout(new GridLayout(1,1));
+		_mainMenu = new JPanel();
+		
+		panelChanger = new JPanel(new CardLayout());
+		JButton startButton = new JButton("Main Menu");
+		startButton.addActionListener(new ButtonListener(this));
+		_mainMenu.add(startButton);
+		
 		_mainPanel = new JPanel();
-		_frame.add(_mainPanel);
+		panelChanger.add(_mainMenu, "MAIN MENU");
+		panelChanger.add(_mainPanel, "MAIN PANEL");
+		_frame.add(panelChanger);
 		_mainPanel.setLayout(new GridLayout(1,2));
 		
 		//Set up the color picker on the game board
@@ -58,6 +62,7 @@ public class MainWindow implements Runnable {
 		toFindPanel.add(findText);
 		toFindPanel.add(_toFindSwatch);
 		_toFindSwatch.setBackground(new Color(0,0,0));
+		
 		//Sets up the "last picked" row
 		JPanel lastPicked = new JPanel();
 		lastPicked.setLayout(new GridLayout(1,2));
@@ -101,6 +106,12 @@ public class MainWindow implements Runnable {
 	public void setLastPickedSwatch(int c) {
 		_lastSelectedSwatch.setBackground(new Color(c));
 	}
+	
+	public void nextPage() {
+		CardLayout c = (CardLayout) panelChanger.getLayout();
+		c.show(panelChanger, "MAIN PANEL");
+	}
+	
 	
 }
 
