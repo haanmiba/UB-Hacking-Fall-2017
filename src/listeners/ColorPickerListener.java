@@ -35,7 +35,6 @@ public class ColorPickerListener implements MouseListener, MouseMotionListener {
 			_m.setSelectedColor(selectedX, selectedY);
 		}
 		
-		
 		// Reset selected coordinates
 		selectedX = -1;
 		selectedY = -1;

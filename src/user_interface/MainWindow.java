@@ -19,7 +19,7 @@ public class MainWindow implements Runnable {
 	
 	private JFrame _frame;
 	private Model _model;
-	private JPanel _mainPanel;
+	private JPanel _mainPanel, _toFindSwatch, _lastSelectedSwatch;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -32,23 +32,44 @@ public class MainWindow implements Runnable {
 		_frame.setLayout(new GridLayout(1,1));
 		_mainPanel = new JPanel();
 		_frame.add(_mainPanel);
+		_mainPanel.setLayout(new GridLayout(1,2));
 		
 		//Set up the color picker on the game board
 		_csp = new ColorSpectrumPanel(this);
-		_frame.add(_csp);
+		_mainPanel.add(_csp);
 		ColorPickerListener pickerListener = new ColorPickerListener(_model, this);
 		_csp.addMouseListener(pickerListener);
 		_csp.addMouseMotionListener(pickerListener);
 		
 		//Sets up the info panel 
 		JPanel infoPanel = new JPanel();
-		infoPanel.setLayout(new GridLayout(1,4));
+		_mainPanel.add(infoPanel);
+		infoPanel.setLayout(new GridLayout(4,1));
+		//Sets up the "to find" row
 		JPanel toFindPanel = new JPanel();
+		toFindPanel.setLayout(new GridLayout(1,2));
+		JLabel findText = new JLabel("Find This Color");
+		findText.setHorizontalAlignment(JLabel.CENTER);
+		findText.setVerticalAlignment(JLabel.CENTER);
+		_toFindSwatch = new JPanel();
+		toFindPanel.add(findText);
+		toFindPanel.add(_toFindSwatch);
+		_toFindSwatch.setBackground(new Color(0,0,0));
+		//Sets up the "last picked" row
+		JPanel lastPicked = new JPanel();
+		lastPicked.setLayout(new GridLayout(1,2));
+		JLabel lastPickedText = new JLabel("Color You Last Selected");
+		lastPickedText.setHorizontalAlignment(JLabel.CENTER);
+		lastPickedText.setVerticalAlignment(JLabel.CENTER);
+		_lastSelectedSwatch = new JPanel();
+		lastPicked.add(lastPickedText);
+		lastPicked.add(_lastSelectedSwatch);
+		_lastSelectedSwatch.setBackground(new Color(0,0,0));
+
+		//add components to the info panel
 		infoPanel.add(toFindPanel);
-		JPanel lastChosenPanel = new JPanel();
-		infoPanel.add(lastChosenPanel);
-		_frame.add(_mainPanel);
-		_mainPanel.setLayout(new GridLayout(1,2));
+		infoPanel.add(lastPicked);
+		infoPanel.add(new JLabel("hi"));
 		
 		//DO NOT TOUCH
 		_frame.setSize(_appWidth, _appHeight);
@@ -65,6 +86,14 @@ public class MainWindow implements Runnable {
 		_appWidth = screenSize.width / 2;
 		_appHeight = screenSize.height / 2;
 		_colorSpectrumResolution = new Dimension(_appWidth/2, _appWidth/2);
+	}
+	
+	public void setToFindSwatch (Color c) {
+		_toFindSwatch.setBackground(c);
+	}
+	
+	public void setLastPickedSwatch (Color c) {
+		_lastSelectedSwatch.setBackground(c);
 	}
 		
 }
