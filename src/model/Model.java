@@ -14,21 +14,21 @@ public class Model {
 	//Score of the player
 	private int _points, _lives;
 	//Color values to find
-	private int colorToFind;
-	private Point colorToFindPoint;
-	private int selectedColor;
-	private Point selectedColorPoint;
-	private int[][] expectedColors;
+	private int _colorToFind;
+	private Point _colorToFindPoint;
+	private int _selectedColor;
+	private Point _selectedColorPoint;
+	private int[][] _colorSpectrum;
 	
 	public Model (MainWindow ui) {
 		_ui = ui;
 		_points = 0;
 		_lives = 3;
-		colorToFind = 0;
-		selectedColor = 0;
-		colorToFindPoint = new Point(-1, -1);
-		selectedColorPoint = new Point(-1, -1);
-		expectedColors = new int[_ui._colorSpectrumResolution.width][_ui._colorSpectrumResolution.width];
+		_colorToFind = 0;
+		_selectedColor = 0;
+		_colorToFindPoint = new Point(-1, -1);
+		_selectedColorPoint = new Point(-1, -1);
+		_colorSpectrum = new int[_ui._colorSpectrumResolution.width][_ui._colorSpectrumResolution.width];
 		generateExpectedColors();
 		generateColorToFind();
 	}
@@ -36,7 +36,7 @@ public class Model {
 	private void generateExpectedColors() {
 		for (int x = 0; x < _ui._colorSpectrumResolution.width; x++) {
 			for (int y = 0; y < _ui._colorSpectrumResolution.width; y++) {
-				expectedColors[x][y] = Color.HSBtoRGB((float)(x)/_ui._colorSpectrumResolution.width, 1, 1-(float)(y)/_ui._colorSpectrumResolution.width);
+				_colorSpectrum[x][y] = Color.HSBtoRGB((float)(x)/_ui._colorSpectrumResolution.width, 1, 1-(float)(y)/_ui._colorSpectrumResolution.width);
 			}
 		}
 	}
@@ -44,18 +44,18 @@ public class Model {
 	public void generateColorToFind() {
 		int x = (int) (Math.random() * _ui._colorSpectrumResolution.width);
 		int y = (int) (Math.random() * _ui._colorSpectrumResolution.width);
-		colorToFindPoint.setLocation(x, y);
-		colorToFind = expectedColors[x][y];
-		System.out.println("Find this color: " + colorToFind);
+		_colorToFindPoint.setLocation(x, y);
+		_colorToFind = _colorSpectrum[x][y];
+		System.out.println("Find this color: " + _colorToFind);
 		System.out.println("At this index: [" + x + "][" + y + "]");
 	}
 
 	public void setSelectedColor(int x, int y) {
-		selectedColor = expectedColors[x][y];
-		selectedColorPoint.setLocation(x, y);
-		System.out.println("You selected this color: " + selectedColor);
+		_selectedColor = _colorSpectrum[x][y];
+		_selectedColorPoint.setLocation(x, y);
+		System.out.println("You selected this color: " + _selectedColor);
 		System.out.println("At this index: [" + x + "][" + y + "]");
-		System.out.println("You were this close: " + selectedColorPoint.distance(colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))));
+		System.out.println("You were this close: " + _selectedColorPoint.distance(_colorToFindPoint) / (new Point(0, 0).distance(new Point(_ui._colorSpectrumResolution.height, _ui._colorSpectrumResolution.width))));
 	}
 	
 }
