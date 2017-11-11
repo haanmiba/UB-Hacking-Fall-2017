@@ -4,6 +4,10 @@ import user_interface.*;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.io.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Model {
 
@@ -16,6 +20,7 @@ public class Model {
 	private int _misses;
 	private int _rounds;
 	private int _multiplier;
+	private int _highScore;
 	
 	// The tolerance of the distance to the point to be found;
 	private double _tolerance;
@@ -61,8 +66,42 @@ public class Model {
 		_selectedColorPoint = new Point(-1, -1);
 		_accuracy = -1;
 		_passedRounds=0;
+		_highScore = getHighScore();
 	}
 
+	public int getHighScore() {
+		int hs = -1;
+		try {
+			for (String line: Files.readAllLines(Paths.get("high_score.txt"))) {
+				hs = new Integer(line);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(hs);
+		return hs;
+	}
+	
+	public int returnHighScore() {
+		return _highScore;
+	}
+	
+	public void setHighScore() {
+		_highScore = _points;
+		try {
+			String highScoreString = Integer.toString(_points);
+			File file = new File("high_score.txt");
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(highScoreString);
+			bw.close();
+			_ui.displayNewHighScore(_highScore);
+		} catch (IOException e) {
+			
+		}
+	}
+	
 	public void startGame() {
 		generateColorToFind();
 		_points = 0;
@@ -72,6 +111,7 @@ public class Model {
 		_clicks = 0;
 		_cumulativeAccuracy = 0;
 		_passedRounds = 0;
+		System.out.println(_highScore);
 		updateUIinfo();
 	}
 	
@@ -89,6 +129,10 @@ public class Model {
 	 * Switches the menu to the results screen
 	 */
 	public void endGame() {
+		System.out.println("Points is greater than high score: " + (_points > _highScore));
+		if (_points > _highScore) {
+			setHighScore();
+		}
 		_ui.setResultsPageData(_points, _passedRounds, _clicks, _misses, _cumulativeAccuracy);
 		_ui.switchPage("RESULTS");
 	}
@@ -171,7 +215,7 @@ public class Model {
 				generateColorToFind();
 			}
 		} else {
-			_misses += ((_misses == 0) ? 2 : 1);
+			_misses++;
 		}
 		
 	}

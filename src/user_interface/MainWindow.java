@@ -18,10 +18,11 @@ public class MainWindow implements Runnable {
 	private JFrame _frame;
 	public Model _model;
 	private CardLayout _cardLayout;
-	private JPanel _frameLayers, _mainMenuPanel, _gamePanel, _infoPanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
+	private JPanel _frameLayers, _highScorePanel, _mainMenuPanel, _gamePanel, _infoPanel, _toFindSwatch, _lastSelectedSwatch, _resultPanel;
 	private JLabel _roundsLabel, _scoreLabel, _guessesLabel;
 	private JLabel[][] _scoreInfo;
 	private JLabel[] _resultInfo;
+	private JLabel _highScoreLabel;
 	private ColorSpectrumPanel _csp;
 	
 	@Override
@@ -79,9 +80,18 @@ public class MainWindow implements Runnable {
 	 */
 	private void initializeMainMenuPanel() {
 		
-		_mainMenuPanel = new JPanel(new GridLayout(4, 1));
+		_mainMenuPanel = new JPanel(new GridLayout(5, 1));
 		_mainMenuPanel.add(new JLabel(new ImageIcon(ImgResourceLoader.getImage("Huedunit Logo.png"))));
 
+		_highScorePanel = new JPanel(new GridLayout(1, 2));
+		initializeHighScorePanel();
+		
+		JPanel p = new JPanel(new GridLayout(1, 3));
+		p.add(new JLabel());
+		p.add(_highScorePanel);
+		p.add(new JLabel());
+		_mainMenuPanel.add(p);
+		
 		JLabel description = new JLabel("Can you survive 10 rounds of testing your color guessing skills? Let's find out!");
 		description.setFont(new Font("Helvetica", Font.PLAIN, 15));
 		description.setHorizontalAlignment(JLabel.CENTER);
@@ -106,6 +116,13 @@ public class MainWindow implements Runnable {
 		JButton startGameButton = createButton("", 8);
 		startGameButton.setIcon(new ImageIcon(ImgResourceLoader.getImage("Start Button.png")));
 		_mainMenuPanel.add(startGameButton);
+	}
+	
+	public void initializeHighScorePanel() {
+		_highScorePanel.add(new JLabel("High Score: "));
+		
+		_highScoreLabel = new JLabel(_model.returnHighScore() + "");
+		_highScorePanel.add(_highScoreLabel);
 	}
 	
 	/**
@@ -204,7 +221,7 @@ public class MainWindow implements Runnable {
 		_scoreInfo[0][1].setText(rounds+"");
 		_scoreInfo[0][3].setText(points+"");
 		_scoreInfo[1][1].setText(clicks+"");
-		_scoreInfo[1][3].setText(accuracy + " %");
+		_scoreInfo[1][3].setText(accuracy + "%");
 	}
 	
 	/**
@@ -267,6 +284,11 @@ public class MainWindow implements Runnable {
 	public void switchPage(String s) {
 		_cardLayout.show(_frameLayers, s);
 	}
+	
+	public void displayNewHighScore(int i) {
+		_highScoreLabel.setText(i + "");
+	}
+	
 }
 
 class ColorSpectrumPanel extends JPanel {
